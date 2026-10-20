@@ -1,21 +1,33 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useState } from "react";
 import { Star } from "lucide-react";
 import { Field, FormMessage, Textarea } from "@/components/ui/form";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { initialActionState } from "@/lib/action-state";
+import type { ActionState } from "@/lib/action-state";
 import { cn } from "@/lib/utils";
 import { submitFeedbackAction } from "@/server/actions/complaints";
-import { useActionToast } from "./use-action-toast";
+import { useToastAction } from "./use-action-toast";
 
 const LABELS = ["", "Very poor", "Poor", "Okay", "Good", "Excellent"];
 
 export function FeedbackForm({ complaintId }: { complaintId: string }) {
-  const [state, formAction] = useActionState(submitFeedbackAction, initialActionState);
-  const [rating, setRating] = useState(0);
+  const [state, formAction] = useToastAction(submitFeedbackAction);
+  // Remount per result so React's post-action form reset can't desync the controlled stars.
+  return <FeedbackFields key={state.at ?? "initial"} state={state} formAction={formAction} complaintId={complaintId} />;
+}
+
+function FeedbackFields({
+  state,
+  formAction,
+  complaintId,
+}: {
+  state: ActionState;
+  formAction: (formData: FormData) => void;
+  complaintId: string;
+}) {
+  const [rating, setRating] = useState(() => Number(state.values?.rating) || 0);
   const [hover, setHover] = useState(0);
-  useActionToast(state);
   const err = state.ok ? undefined : state.fieldErrors?.rating?.[0];
   const shown = hover || rating;
 
@@ -54,7 +66,7 @@ export function FeedbackForm({ complaintId }: { complaintId: string }) {
         ) : null}
       </fieldset>
       <Field id="feedback-comment" label="Comments">
-        <Textarea id="feedback-comment" name="comment" rows={3} maxLength={500} placeholder="What went well, or what could be better?" />
+        <Textarea id="feedback-comment" name="comment" rows={3} maxLength={500} defaultValue={state.values?.comment} placeholder="What went well, or what could be better?" />
       </Field>
       <SubmitButton pendingText="Submitting…">Submit feedback</SubmitButton>
     </form>

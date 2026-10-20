@@ -32,6 +32,11 @@
   --accent-soft: #e8f6f5;
   --neutral-soft: #f2f4f7;
   --focus: #2d6a9f;
+  /* Chart series (validated with the dataviz palette checker for light and dark surfaces). */
+  --chart-1: #2d6a9f;
+  --chart-2: #159a91;
+  --chart-grid: #eaecf0;
+  --chart-axis: #667085;
   color-scheme: light;
 }
 
@@ -59,6 +64,10 @@
   --accent-soft: #10302e;
   --neutral-soft: #223040;
   --focus: #6aa5d8;
+  --chart-1: #3e7fd6;
+  --chart-2: #22a699;
+  --chart-grid: #243345;
+  --chart-axis: #9aa8b8;
   color-scheme: dark;
 }
 
@@ -87,6 +96,8 @@
   --color-accent-soft: var(--accent-soft);
   --color-neutral-soft: var(--neutral-soft);
   --color-focus: var(--focus);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius-card: 12px;
   --radius-control: 8px;

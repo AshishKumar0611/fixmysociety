@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { LogoMark } from "../brand";
 import { SidebarNav, type NavVariant } from "./nav-links";
@@ -20,7 +19,6 @@ export function MobileDrawer({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDialogElement>(null);
-  const pathname = usePathname();
 
   useEffect(() => {
     const d = ref.current;
@@ -28,9 +26,6 @@ export function MobileDrawer({
     if (open && !d.open) d.showModal();
     if (!open && d.open) d.close();
   }, [open]);
-
-  // Close after navigating.
-  useEffect(() => setOpen(false), [pathname]);
 
   return (
     <>

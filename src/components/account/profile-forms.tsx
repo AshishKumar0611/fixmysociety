@@ -1,16 +1,14 @@
 "use client";
 
-import { useActionState, useRef } from "react";
+import { useRef } from "react";
 import { KeyRound, Save } from "lucide-react";
 import { Field, Input, describedBy } from "@/components/ui/form";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { useActionToast } from "@/components/complaints/use-action-toast";
-import { initialActionState } from "@/lib/action-state";
+import { useToastAction } from "@/components/complaints/use-action-toast";
 import { changePasswordAction, updateProfileAction } from "@/server/actions/community";
 
 export function ProfileForm({ name, phone }: { name: string; phone: string | null }) {
-  const [state, formAction] = useActionState(updateProfileAction, initialActionState);
-  useActionToast(state);
+  const [state, formAction] = useToastAction(updateProfileAction);
   const err = (k: string) => (state.ok ? undefined : state.fieldErrors?.[k]?.[0]);
   return (
     <form action={formAction} className="space-y-4" noValidate>
@@ -29,9 +27,8 @@ export function ProfileForm({ name, phone }: { name: string; phone: string | nul
 }
 
 export function PasswordForm() {
-  const [state, formAction] = useActionState(changePasswordAction, initialActionState);
   const ref = useRef<HTMLFormElement>(null);
-  useActionToast(state, { onSuccess: () => ref.current?.reset() });
+  const [state, formAction] = useToastAction(changePasswordAction, { onSuccess: () => ref.current?.reset() });
   const err = (k: string) => (state.ok ? undefined : state.fieldErrors?.[k]?.[0]);
   return (
     <form ref={ref} action={formAction} className="space-y-4" noValidate>

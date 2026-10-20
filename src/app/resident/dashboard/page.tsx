@@ -62,7 +62,7 @@ export default async function ResidentDashboard({ searchParams }: { searchParams
         <KpiCard label="Resolved" value={stats.resolved} icon={CheckCircle2} tone="success" hint="Resolved or closed" />
       </section>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_340px]">
+      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <Card>
           <CardHeader
             title="Recent complaints"

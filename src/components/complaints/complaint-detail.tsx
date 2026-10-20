@@ -58,7 +58,7 @@ export function ComplaintDetailView({
         <p className="mt-1 text-sm text-muted">{STATUS_DESCRIPTIONS[c.status]}</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0 space-y-6">
           <Card>
             <CardHeader title="Complaint details" />

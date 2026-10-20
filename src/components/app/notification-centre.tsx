@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useEffect } from "react";
 import { Bell, CheckCheck } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { useToast } from "@/components/ui/toast";
-import { initialActionState } from "@/lib/action-state";
+import { useToastAction } from "@/components/complaints/use-action-toast";
 import { cn } from "@/lib/utils";
 import { markAllNotificationsReadAction, markNotificationReadAction } from "@/server/actions/community";
 
@@ -22,13 +20,8 @@ export type NotificationItem = {
 };
 
 export function NotificationCentre({ items }: { items: NotificationItem[] }) {
-  const [state, markAll] = useActionState(markAllNotificationsReadAction, initialActionState);
-  const toast = useToast();
+  const [, markAll] = useToastAction(markAllNotificationsReadAction);
   const unread = items.filter((n) => !n.readAt).length;
-
-  useEffect(() => {
-    if (state.at && state.message) toast(state.message, state.ok ? "success" : "error");
-  }, [state, toast]);
 
   if (items.length === 0) {
     return (

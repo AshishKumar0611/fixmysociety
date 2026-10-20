@@ -93,7 +93,7 @@ export function AppShell({
             />
             <Link href={home} className="flex items-center gap-2 rounded-lg md:hidden" aria-label="FixMySociety home">
               <LogoMark className="size-8" />
-              <span className="text-[15px] font-bold">FixMySociety</span>
+              <span className="hidden text-[15px] font-bold min-[360px]:inline">FixMySociety</span>
             </Link>
             <p className="hidden truncate text-sm text-muted md:block lg:hidden">{user.society.name}</p>
             <div className="ml-auto flex items-center gap-1">

@@ -8,10 +8,11 @@ import type { ComplaintStatus } from "@prisma/client";
  *   RESOLVED can be reopened (back to IN_PROGRESS) if the fix did not hold.
  */
 export const ALLOWED_TRANSITIONS: Record<ComplaintStatus, ComplaintStatus[]> = {
+  // Forward moves are listed first; they are offered first in the manager's status menu.
   OPEN: ["ASSIGNED", "IN_PROGRESS", "RESOLVED"],
-  ASSIGNED: ["OPEN", "IN_PROGRESS", "RESOLVED"],
-  IN_PROGRESS: ["ASSIGNED", "RESOLVED"],
-  RESOLVED: ["IN_PROGRESS", "CLOSED"],
+  ASSIGNED: ["IN_PROGRESS", "RESOLVED", "OPEN"],
+  IN_PROGRESS: ["RESOLVED", "ASSIGNED"],
+  RESOLVED: ["CLOSED", "IN_PROGRESS"],
   CLOSED: [],
 };
 

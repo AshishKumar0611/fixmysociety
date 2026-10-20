@@ -1,28 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+type Theme = "light" | "dark";
 
-  useEffect(() => {
-    setTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
-  }, []);
+// The theme lives on <html data-theme>, set before paint by the inline script in the root layout.
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  return () => observer.disconnect();
+}
+const getTheme = (): Theme => (document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+const getServerTheme = (): Theme => "light";
+
+export function ThemeToggle({ className }: { className?: string }) {
+  const theme = useSyncExternalStore(subscribe, getTheme, getServerTheme);
+  const isDark = theme === "dark";
 
   function toggle() {
-    const next = theme === "dark" ? "light" : "dark";
+    const next: Theme = isDark ? "light" : "dark";
     document.documentElement.dataset.theme = next;
     try {
       localStorage.setItem("fms-theme", next);
     } catch {
       /* storage unavailable: theme still applies for this visit */
     }
-    setTheme(next);
   }
 
-  const isDark = theme === "dark";
   return (
     <button
       type="button"

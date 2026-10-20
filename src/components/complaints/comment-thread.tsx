@@ -1,14 +1,13 @@
 "use client";
 
-import { useActionState, useRef } from "react";
+import { useRef } from "react";
 import { Lock, MessageSquare, Send } from "lucide-react";
 import type { Role } from "@prisma/client";
 import { Field, Textarea, describedBy } from "@/components/ui/form";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { initialActionState } from "@/lib/action-state";
 import { cn, initials } from "@/lib/utils";
 import { addCommentAction } from "@/server/actions/complaints";
-import { useActionToast } from "./use-action-toast";
+import { useToastAction } from "./use-action-toast";
 
 export type CommentItem = {
   id: string;
@@ -29,9 +28,8 @@ export function CommentThread({
   viewerRole: Role;
   canComment: boolean;
 }) {
-  const [state, formAction] = useActionState(addCommentAction, initialActionState);
   const formRef = useRef<HTMLFormElement>(null);
-  useActionToast(state, { onSuccess: () => formRef.current?.reset() });
+  const [state, formAction] = useToastAction(addCommentAction, { onSuccess: () => formRef.current?.reset() });
   const err = state.ok ? undefined : state.fieldErrors?.body?.[0];
   const isManager = viewerRole === "MANAGER";
 

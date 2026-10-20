@@ -31,7 +31,7 @@ export function ComplaintTable({
   caption: string;
 }) {
   return (
-    <div className="hidden overflow-x-auto md:block">
+    <div className="relative hidden overflow-x-auto md:block">
       <table className="w-full min-w-[720px] text-left text-sm">
         <caption className="sr-only">{caption}</caption>
         <thead>
