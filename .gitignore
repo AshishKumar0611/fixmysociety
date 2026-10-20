@@ -11,3 +11,8 @@ test-results/
 playwright-report/
 .DS_Store
 *.log
+next-env.d.ts
+*.tsbuildinfo
+/prisma/*.db
+/prisma/*.db-journal
+.vercel
