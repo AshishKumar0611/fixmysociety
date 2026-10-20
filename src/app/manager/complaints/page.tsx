@@ -26,7 +26,7 @@ export default async function ManagerComplaintsPage({ searchParams }: { searchPa
     <>
       <PageHeader title="Complaint queue" description={`All maintenance complaints for ${user.society.name}.`} />
       <Card className="mb-4 p-4 sm:p-5">
-        <FilterBar action="/manager/complaints" values={raw} searchPlaceholder="Search ID, title, resident or unit" />
+        <FilterBar key={JSON.stringify(raw)} action="/manager/complaints" values={raw} searchPlaceholder="Search ID, title, resident or unit" />
       </Card>
       <Card>
         {result.total === 0 ? (

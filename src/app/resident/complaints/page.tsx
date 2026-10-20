@@ -37,7 +37,7 @@ export default async function ResidentComplaintsPage({ searchParams }: Props) {
         }
       />
       <Card className="mb-4 p-4 sm:p-5">
-        <FilterBar action="/resident/complaints" values={raw} />
+        <FilterBar key={JSON.stringify(raw)} action="/resident/complaints" values={raw} />
       </Card>
       <Card>
         {result.total === 0 ? (

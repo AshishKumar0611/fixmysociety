@@ -50,7 +50,7 @@ export default async function ResidentsPage({ searchParams }: { searchParams: Pr
     <>
       <PageHeader title="Resident directory" description={`Residents registered with ${user.society.name}.`} />
       <Card className="mb-4 p-4 sm:p-5">
-        <Form action="/manager/residents" className="flex flex-col gap-3 sm:flex-row" role="search" aria-label="Search residents">
+        <Form key={`${q ?? ""}|${status ?? ""}`} action="/manager/residents" className="flex flex-col gap-3 sm:flex-row" role="search" aria-label="Search residents">
           <div className="relative flex-1">
             <label htmlFor="resident-q" className="sr-only">Search residents</label>
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted" aria-hidden />
