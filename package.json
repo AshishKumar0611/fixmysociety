@@ -17,7 +17,7 @@
     "db:reset-demo": "tsx --env-file=.env scripts/reset-demo.ts",
     "db:studio": "prisma studio",
     "db:pg:sync": "node scripts/sync-postgres-schema.mjs",
-    "build:postgres": "prisma generate --schema prisma/postgres/schema.prisma && prisma migrate deploy --schema prisma/postgres/schema.prisma && next build",
+    "build:postgres": "prisma generate --schema prisma/postgres/schema.prisma && prisma migrate deploy --schema prisma/postgres/schema.prisma && node scripts/maybe-seed.mjs && next build",
     "postinstall": "prisma generate"
   },
   "dependencies": {

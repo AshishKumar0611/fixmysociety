@@ -84,16 +84,19 @@ npx prisma migrate diff \
 1. Create an empty PostgreSQL database (for example a free Neon, Supabase or Vercel Postgres
    instance) and copy its **direct** (non-pooled) connection string.
 2. Set `DATABASE_URL` to that string in your hosting provider's environment variables.
-3. Build with `npm run build:postgres`. This runs:
+   Also set `DATABASE_URL_UNPOOLED` to the direct connection string (migrations need a direct
+   connection; `DATABASE_URL` may be a pooled one). Vercel's Neon integration sets both.
+3. Build with `npm run build:postgres` (Vercel does this automatically via `vercel.json`). This runs:
    - `prisma generate --schema prisma/postgres/schema.prisma`
    - `prisma migrate deploy --schema prisma/postgres/schema.prisma`, which **only applies migrations
      that have not run yet**. It never resets the database or regenerates history.
+   - `node scripts/maybe-seed.mjs` — loads demo data only if `SEED_DEMO_DATA="true"` (idempotent)
    - `next build`
-4. Optionally load the demo data **once** (from your own computer):
+4. Alternatively, load the demo data from your own computer:
 
    ```bash
    npx prisma generate --schema prisma/postgres/schema.prisma
-   DATABASE_URL="postgresql://…" NODE_ENV=production SEED_DEMO_PASSWORD="choose-a-strong-one" npx tsx prisma/seed.ts
+   DATABASE_URL="postgresql://…" DATABASE_URL_UNPOOLED="postgresql://…" NODE_ENV=production SEED_DEMO_PASSWORD="choose-a-strong-one" npx tsx prisma/seed.ts
    npx prisma generate   # switch your local client back to SQLite
    ```
 

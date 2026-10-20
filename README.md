@@ -116,7 +116,7 @@ full mapping to the specification's 25 test requirements is in
 
 ## Deployment
 
-**Not deployed yet.** The app is ready for Vercel and a free PostgreSQL database (Neon). Follow
+**Not deployed yet.** The app is ready for Vercel with its built-in Neon PostgreSQL (`vercel.json` included; about 10 minutes of clicks). Follow
 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md). Database details and safe migration steps are in
 [`docs/DATABASE.md`](docs/DATABASE.md).
 

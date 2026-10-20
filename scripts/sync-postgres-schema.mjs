@@ -18,7 +18,10 @@ const header = `// GENERATED FILE — do not edit by hand.
 `;
 const body = source
   .replace(/^\/\/ FixMySociety database schema\.[\s\S]*?\n\n/, "")
-  .replace(/provider\s*=\s*"sqlite"/, 'provider = "postgresql"');
+  .replace(/provider\s*=\s*"sqlite"/, 'provider = "postgresql"')
+  // Migrations need a direct (non-pooled) connection; the app itself can use a pooled one.
+  // Vercel's Neon integration sets both variables automatically. Elsewhere, set both to the same URL.
+  .replace(/(url\s*=\s*env\("DATABASE_URL"\)\n)/, '$1  directUrl = env("DATABASE_URL_UNPOOLED")\n');
 
 mkdirSync("prisma/postgres", { recursive: true });
 writeFileSync("prisma/postgres/schema.prisma", header + body);
