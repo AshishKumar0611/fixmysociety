@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
+/* Dark mode is driven by data-theme on <html>, set before paint by an inline script. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Semantic design tokens. Components use these names (bg-surface, text-ink, border-line …)
+ * rather than raw hex values, so light and dark themes come from one place.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --navy: #17324d;
+  --primary: #17324d;
+  --primary-hover: #10263b;
+  --on-primary: #ffffff;
+  --secondary: #2d6a9f;
+  --accent: #159a91;
+  --page: #f5f7fa;
+  --surface: #ffffff;
+  --surface-muted: #f9fafb;
+  --ink: #1d2939;
+  --muted: #667085;
+  --line: #e4e7ec;
+  --success: #16803d;
+  --success-soft: #ecfdf3;
+  --warning: #b54708;
+  --warning-soft: #fffaeb;
+  --error: #b42318;
+  --error-soft: #fef3f2;
+  --info: #175cd3;
+  --info-soft: #eff8ff;
+  --secondary-soft: #eef4fa;
+  --accent-soft: #e8f6f5;
+  --neutral-soft: #f2f4f7;
+  --focus: #2d6a9f;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --primary: #3b7fc0;
+  --primary-hover: #4a8fd1;
+  --on-primary: #ffffff;
+  --secondary: #6aa5d8;
+  --accent: #3cc4ba;
+  --page: #0e1621;
+  --surface: #16212e;
+  --surface-muted: #1b2836;
+  --ink: #e7ecf2;
+  --muted: #9aa8b8;
+  --line: #2a3a4c;
+  --success: #4ccb7a;
+  --success-soft: #12301f;
+  --warning: #f2a250;
+  --warning-soft: #33230f;
+  --error: #f97066;
+  --error-soft: #3a1714;
+  --info: #6aa8ff;
+  --info-soft: #14243f;
+  --secondary-soft: #18293b;
+  --accent-soft: #10302e;
+  --neutral-soft: #223040;
+  --focus: #6aa5d8;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-navy: var(--navy);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-error: var(--error);
+  --color-error-soft: var(--error-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-secondary-soft: var(--secondary-soft);
+  --color-accent-soft: var(--accent-soft);
+  --color-neutral-soft: var(--neutral-soft);
+  --color-focus: var(--focus);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-dialog: 14px;
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.05);
+  --shadow-raised: 0 4px 12px -2px rgb(16 24 40 / 0.08), 0 2px 4px -2px rgb(16 24 40 / 0.04);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--secondary) 25%, transparent);
+  }
+  dialog::backdrop {
+    background: rgb(16 24 40 / 0.5);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
