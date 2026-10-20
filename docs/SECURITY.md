@@ -47,7 +47,14 @@
   because pages with loading skeletons start streaming before access checks complete. No data is
   rendered in that case.
 - **No audit log** for manager actions beyond complaint status history and comments.
-- **No automated dependency scanning** is configured. `npm audit` reports advisories in
-  development-only lint tooling (`eslint-config-next`'s glob dependency), not in runtime packages.
+- **Dependency advisories (checked 20 Oct 2026 with `npm audit`).**
+  - Production dependencies: 3 "high" advisories, all from `deepmerge-ts` inside the **Prisma CLI**
+    (`prisma` → `@prisma/config`). It runs only when the CLI loads its configuration
+    (generate/migrate), not while the app serves requests. The fix requires upgrading to Prisma 7,
+    a breaking change planned as follow-up work.
+  - Development-only tooling: advisories in Vitest 3's dependencies and in `eslint-config-next`'s
+    glob dependency. These are not shipped to users. (Vitest 4 could not be installed because of an
+    npm 10 peer-resolution bug at the time.)
+  - No automated dependency scanning (for example Dependabot) is configured yet.
 - The privacy and terms pages are plain-English descriptions for a student project and have not
   been reviewed by a lawyer.
